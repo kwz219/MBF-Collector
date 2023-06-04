@@ -1,6 +1,6 @@
 import Util.Utils as utils
 from Entity.BFEntity import BFEntity
-from Crawl.InfoExtractor import recordRepoInfo,recordCommitMessage
+from Crawl.InfoExtractor import recordRepoInfo,recordCommitMessage, recordIssueInfo
 from Crawl.Crawler import getCompleteCommitInfo
 def downloadAndDecompress(start_time,end_time):
     """
@@ -49,6 +49,7 @@ def parseBasicInformation(events_json_f:str, target_types:list):
         elif event["type"]=="PullRequestEvent":
             recordRepoInfo(bug_fix_entity, event, "PullRequestEvent")
             recordCommitMessage(bug_fix_entity, event, "PullRequestEvent")
+            recordIssueInfo(bug_fix_entity, event)
             pass
 
 

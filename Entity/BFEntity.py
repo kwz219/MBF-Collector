@@ -12,10 +12,13 @@ class BFEntity():
         self.fault_type=None
         self.fault_location=None
 
+        # for deriving original buggy code backwards
+        self.raw_fixed_file=None
+
         # extra information for PullRequest Event
         self.issue_url=None
-        self.title_url=None
-        self.patch_url=None
+        self.issue_title=None
+        self.issue_comments=None
 
     def init_repo_info(self,repo_url,repo_stars,repo_language):
         self.repo_url = repo_url
