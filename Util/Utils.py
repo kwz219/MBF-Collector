@@ -45,7 +45,7 @@ def filterEventsByTypes(events:list,target_types:list):
     return filtered_events
 
 def filterEventsByKeywords(events:list):
-    #TODO
+    #TODO 戈
     """
     :param events: [dict,dict,dict]
     :return: filtered events that match the bug-fix keywords

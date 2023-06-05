@@ -1,0 +1,44 @@
+{
+  "id":"19541395614",
+  "type":"PushEvent",
+  "actor":{
+    "id":48495458,
+    "login":"MarvinHatesOceans",
+    "display_login":"MarvinHatesOceans",
+    "gravatar_id":"",
+    "url":"https://api.github.com/users/MarvinHatesOceans",
+    "avatar_url":"https://avatars.githubusercontent.com/u/48495458?"
+  },
+  "repo":{
+    "id":304426748,
+    "name":"auto-maintainers/desktop",
+    "url":"https://api.github.com/repos/auto-maintainers/desktop"
+  },
+  "payload":{
+    "push_id":8732432895,
+    "size":1,
+    "distinct_size":1,
+    "ref":"refs/heads/bump_gentoo-portage_layers",
+    "head":"6cc545dd28b018b24b5501b14ee1e2afc7141941",
+    "before":"e8c44fe8fb96c9f64d9e7651c1d45021f2924896",
+    "commits":[{
+      "sha":"6cc545dd28b018b24b5501b14ee1e2afc7141941",
+      "author":{
+        "email":"github-bots@sabayon.com",
+        "name":"MarvinHatesOceans"
+      },
+      "message":"reverse dep: bump layers/kde-common for layers/gentoo-portage",
+      "distinct":true,
+      "url":"https://api.github.com/repos/auto-maintainers/desktop/commits/6cc545dd28b018b24b5501b14ee1e2afc7141941"
+    }]
+  },
+  "public":true,
+  "created_at":"2022-01-01T01:00:00Z",
+  "org":{
+    "id":48530990,
+    "login":"auto-maintainers",
+    "gravatar_id":"",
+    "url":"https://api.github.com/orgs/auto-maintainers",
+    "avatar_url":"https://avatars.githubusercontent.com/u/48530990?"
+  }
+}

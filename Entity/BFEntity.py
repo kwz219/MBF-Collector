@@ -1,7 +1,7 @@
 class BFEntity():
     def __init__(self):
         # event information
-        self.type=None
+        self.event_type=None
         self.commit_url=None
 
         # bug-fix pair information
