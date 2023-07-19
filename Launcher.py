@@ -1,6 +1,6 @@
 import Util.Utils as utils
 from Entity.BFEntity import BFEntity
-from Crawl.InfoExtractor import recordRepoInfo,recordCommitMessage,recordPatch
+from Crawl.InfoExtractor import recordRepoInfo, recordCommitMessage, recordPatch, recordIssueInfo
 from Crawl.Crawler import getCompleteCommitInfo
 def downloadAndDecompress(start_time,end_time):
     """
@@ -13,7 +13,7 @@ def downloadAndDecompress(start_time,end_time):
 
 
 
-def parseBasicInformation(events_json_f:str, target_types:list):
+def parseBasicInformation(events_json_f:str, target_types:list,only_single_file_change:bool):
     """
     :param events_json_f: events json downloaded from github archive
     :param target_types: target events types: ["PushEvent","PullRequestEvent"]
@@ -40,17 +40,17 @@ def parseBasicInformation(events_json_f:str, target_types:list):
     for event in bug_fix_events:
         bug_fix_entity= BFEntity()
         if event["type"]=="PushEvent":
-            #TODO 王
             recordRepoInfo(bug_fix_entity,event,"PushEvent")
             recordCommitMessage(bug_fix_entity,event,"PushEvent")
-
             # 4.  through the commit url, get raw FIX FILE, PATCH
             recordPatch(bug_fix_entity,event,"PushEvent")
             pass
         elif event["type"]=="PullRequestEvent":
-            #TODO 张
+
             recordRepoInfo(bug_fix_entity, event, "PullRequestEvent")
             recordCommitMessage(bug_fix_entity, event, "PullRequestEvent")
+            recordIssueInfo(bug_fix_entity, event)
+            recordPatch(bug_fix_entity,event,"PullRequestEvent")
             pass
 
 
