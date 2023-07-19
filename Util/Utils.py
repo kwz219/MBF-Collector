@@ -225,5 +225,15 @@ def matchType(type,id_list):
         if type_id in id_list:
             return True
     return False
+
+def readJsonFile(json_f):
+    with open(json_f,'r',encoding='utf8')as f:
+        result = json.load(f)
+    return result
+
+def writeJsonFile(content,json_f):
+    with open(json_f,'w',encoding='utf8')as f:
+        json.dump(content,f)
+
 #test_filterEventsByTypes()
 

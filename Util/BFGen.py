@@ -61,7 +61,7 @@ def recoverBuggyFile(json_path):
             break
         else:
             time.sleep(1)
-    return state
+    return state,tmp_dir,fileformat
 
 def recoverFault(jsonFile):
     """
