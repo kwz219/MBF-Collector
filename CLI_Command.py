@@ -10,7 +10,7 @@ if __name__ == "__main__":
     parser.add_argument("--log_path")
     parser.add_argument("--month",help="Which month's data do you want to download, e.g., 2020-01 ")
     parser.add_argument("--download_save_dir")
-    parser.add_argument("--month_dir",help="the directory to store the data orgnizes by month")
+    parser.add_argument("--month_dir",help="the directory to store the data organizes by month")
     parser.add_argument("--save_dir")
     parser.add_argument("--au_token")
 
@@ -33,7 +33,7 @@ if __name__ == "__main__":
         download_by_month(year,month,download_save_dir)
         unzip_and_delete_all(download_save_dir)
 
-    elif mode == "parse_basic_information":
+    elif mode == "mine_basic_information":
         month_dir = args.month_dir
         log_file = args.log_path
         traverse_folder_month_parse(month_dir,log_file)
