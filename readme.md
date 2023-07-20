@@ -1,5 +1,23 @@
 ## MBFC - a MultiLingual Bug-Fix dataset and its Constructor
 
+### Supported Languages and functions (updated 2023.07.20)
+
+| **Language** | **Repo Info** | **Bug-Fix Description** | **Fault Type (partly)** | **File-Level Pair** | **Method-level Pair** | **Line-Level Pair** |
+|:------------:|:-------------:|:-----------------------:|:-----------------------:|:-------------------:|:---------------------:|:-------------------:|
+| Javascript   | √             | √                       | √                       | √                   | √                     | √                   |
+| Python       | √             | √                       | √                       | √                   | √                     | √                   |
+| Java         | √             | √                       | √                       | √                   | √                     | √                   |
+| C            | √             | √                       | √                       | √                   | √                     | √                   |
+| C++          | √             | √                       | √                       | √                   | √                     | √                   |
+| C#           | √             | √                       | √                       | √                   | √                     | √                   |
+| Go           | √             | √                       | √                       | √                   | going                 | going               |
+| PHP          | √             | √                       | √                       | √                   | going                 | going               |
+| Rust         | √             | √                       | √                       | √                   | going                 | going               |
+| Swift        | √             | √                       | √                       | √                   | going                 | going               |
+| Ruby         | √             | √                       | √                       | √                   | going                 | going               |
+| TypeScript   | √             | √                       | √                       | √                   | going                 | going               |
+
+
 ### Usage
 #### For downloading and preparing new database:
 ##### (1) Downloads events information of xxxx-xx(year-month):
@@ -13,3 +31,8 @@
 
 ### Export Data from the database according to your requirements
 > python CLI_Command.pt -mode export_data -language <which_program_language> -events_type <Push|PR|All> -context_level <File|Method|Line> -fault_type <fault_type_id|All> -output_dir <the directory to store file>
+
+
+### Already Parsed Data (updated 2023.07.20)
+#### 2023.07.20 updated
+> 2020-1 to 2020-9: <download_link>

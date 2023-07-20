@@ -31,7 +31,7 @@ def traverse_folder_month_infer(month_dir,log_f):
             infer_type_folder(sub_dir,id_list,log_f)
 
 #traverse folder for parsing contexts
-def traverse_folder_month_parse(month_dir,log_f):
+def traverse_folder_month_parse(month_dir,log_f,jar_path):
     dirs=os.listdir(month_dir)
     success_count=0
     failed_count=0
@@ -44,7 +44,7 @@ def traverse_folder_month_parse(month_dir,log_f):
                 for idx,file in enumerate(files):
                     if file.endswith(".json"):
                         file_path = os.path.join(events_dir,file)
-                        state=compute_fault_locations(file_path)
+                        state=compute_fault_locations(file_path,jar_path)
                         if idx%50==0:
                             print("Succeed",success_count,"Failed",failed_count)
                         if state == 0:

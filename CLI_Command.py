@@ -15,6 +15,8 @@ if __name__ == "__main__":
     parser.add_argument("--au_token")
 
     ## args for constructing
+    parser.add_argument("--jar_path",help="the location of jar")
+
     args = parser.parse_args()
 
     mode = args.mode
@@ -36,7 +38,8 @@ if __name__ == "__main__":
     elif mode == "mine_basic_information":
         month_dir = args.month_dir
         log_file = args.log_path
-        traverse_folder_month_parse(month_dir,log_file)
+        parse_jar_file = args.jar_path
+        traverse_folder_month_parse(month_dir,log_file,parse_jar_file)
         pass
     elif mode == "":
         pass

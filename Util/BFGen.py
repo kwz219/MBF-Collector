@@ -33,7 +33,7 @@ def recoverBuggyFile(json_path):
     if not os.path.exists(tmp_dir):
         os.system("mkdir "+tmp_dir)
     else:
-        return -1
+        return -1,tmp_dir,fileformat
     buggy_file_path = os.path.join(tmp_dir,event_id+'_buggy.'+fileformat)
     fixed_file_path = os.path.join(tmp_dir,event_id+'_fixed.'+fileformat)
     patch_path = os.path.join(tmp_dir,event_id+".patch")

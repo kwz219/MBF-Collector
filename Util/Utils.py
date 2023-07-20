@@ -233,7 +233,7 @@ def readJsonFile(json_f):
 
 def writeJsonFile(content,json_f):
     with open(json_f,'w',encoding='utf8')as f:
-        json.dump(content,f)
+        json.dump(content,f,indent=10)
 
 #test_filterEventsByTypes()
 
