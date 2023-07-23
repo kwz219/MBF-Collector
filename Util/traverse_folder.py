@@ -10,14 +10,15 @@ def infer_type_folder(folder_path,id_list,log_f):
         sub_folder_path = folder_path+'/'+event
         files = os.listdir(sub_folder_path)
         for file in files:
-            id = file.replace(".json","")
-            json_path = os.path.join(sub_folder_path,file)
-            result,type,file_name=find_type_filtered(json_path,id_list)
-            if(result):
-                language = judge_language(file_name)
-                with open(log_f,'a',encoding='utf8')as f:
-                    f.write(json_path+'\t'+id+'\t'+language+'\t'+type+'\t'+str(result)+'\n')
-                    print(json_path+'\t'+id+'\t'+language+'\t'+type+'\t'+str(result)+'\n')
+            if file.endswith(".json"):
+                id = file.replace(".json","")
+                json_path = os.path.join(sub_folder_path,file)
+                result,type,file_name=find_type_filtered(json_path,id_list)
+                if(result):
+                    language = judge_language(file_name)
+                    with open(log_f,'a',encoding='utf8')as f:
+                        f.write(json_path+'\t'+id+'\t'+language+'\t'+type+'\t'+str(result)+'\n')
+                        print(json_path+'\t'+id+'\t'+language+'\t'+type+'\t'+str(result)+'\n')
 
 # traverse for infering types
 def traverse_folder_month_infer(month_dir,log_f):

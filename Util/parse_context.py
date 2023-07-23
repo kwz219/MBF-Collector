@@ -31,12 +31,14 @@ def compute_fault_locations(json_file,jar_path):
                     #print("failed at fl ",json_file)
 
         pass
+    elif recover_state==-1:
+        print("already parsed "+json_file, "passed")
     else:
         print("failed to patch file "+json_file)
     return recover_state
 
 def parse_fault_location(buggy_file,fix_file,target_position,jar_path,fileformat):
-    cmd = "java -jar "+jar_path+" "+buggy_file+" "+fix_file+" "+target_position+" "+fileformat
+    cmd = "java -jar "+jar_path+" "+buggy_file+" "+fix_file+" "+target_position+" -"+fileformat
     print(cmd)
     parseProcess = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     #os.system("java -jar "+jar_path+" "+buggy_file+" "+fix_file+" "+target_position+" "+fileformat)

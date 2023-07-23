@@ -201,4 +201,4 @@ def main():
             if os.path.exists(file.replace(".gz","")):
                 os.system("rm "+file.replace(".gz",""))
 
-main()
+#main()
