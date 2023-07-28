@@ -16,9 +16,12 @@ def getBFfiles(dragFile):
     with open(dragFile, 'r') as f:
         data = json.load(f)
         patch = data['bf_info']['patch']
-        content = base64.b64decode(data['bf_info']['fix_file_info']['content']).decode('utf-8')
+        try:
+            content = base64.b64decode(data['bf_info']['fix_file_info']['content']).decode('utf-8')
 
-        fileFormat = os.path.basename(data['bf_info']['fix_file_info']['file_path']).split(".")[-1]
+            fileFormat = os.path.basename(data['bf_info']['fix_file_info']['file_path']).split(".")[-1]
+        except:
+            print("Failed to convert fix file content from base64 to utf-8: ",dragFile)
     return content, patch, fileFormat
 
 def writeFile(content,file_path):
