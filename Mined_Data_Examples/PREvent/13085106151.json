@@ -2,7 +2,7 @@
           "event_info": {
                     "event_id": "13085106151",
                     "event_type": "PullRequestEvent",
-                    "merged": false
+                    "merged": true
           },
           "repo": {
                     "repo_url": "https://api.github.com/repos/ovis-hpc/ovis",
