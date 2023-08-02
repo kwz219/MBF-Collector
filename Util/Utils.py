@@ -4,7 +4,7 @@ import gzip
 import os
 import re
 import time
-
+import tarfile
 import requests
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
@@ -235,5 +235,45 @@ def writeJsonFile(content,json_f):
     with open(json_f,'w',encoding='utf8')as f:
         json.dump(content,f,indent=10)
 
-#test_filterEventsByTypes()
+def CompressFolder(month_dir,output_file):
+    compress_file = tarfile.open(output_file,'w:gz')
+    sud_dirs=os.listdir(month_dir)
+    add_count=0
+    for sub_dir in sud_dirs:
+        sub_dir_abs_path = os.path.join(month_dir,sub_dir)
+        if os.path.isdir(sub_dir_abs_path):
+            push_event_dir = sub_dir_abs_path+'/PushEvent'
+            pr_event_dir = sub_dir_abs_path+'/PREvent'
+
+            push_json_files = os.listdir(push_event_dir)
+            for file in push_json_files:
+                if file.endswith('.json'):
+                    file_path = os.path.join(push_event_dir,file)
+                    file_content = readJsonFile(file_path)
+                    fix_file_path = file_content["bf_info"]["fix_file_info"]["file_path"]
+                    file_postfix = fix_file_path.split('.')[-1]
+                    if file_postfix in ["json","txt","md","yml","html","css","xml","yaml"]:
+                        pass
+                    else:
+                        compress_file.add(file_path)
+                        add_count+=1
+                        print(add_count,fix_file_path)
+
+            pr_json_files = os.listdir(pr_event_dir)
+            for file in pr_json_files:
+                if file.endswith('.json'):
+                    file_path = os.path.join(pr_event_dir,file)
+                    file_content = readJsonFile(file_path)
+                    fix_file_path = file_content["bf_info"]["fix_file_info"]["file_path"]
+                    file_postfix = fix_file_path.split('.')[-1]
+                    if file_postfix in ["json","txt","md","yml","html","css","xml","yaml"]:
+                        pass
+                    else:
+                        compress_file.add(file_path)
+                        add_count+=1
+                        print(add_count,fix_file_path)
+
+CompressFolder("/home/zwk/BF_DATA/2020-3","/home/zwk/BF_DATA_Compressed/2020-3.tar.gz")
+
+
 
