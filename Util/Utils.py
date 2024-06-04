@@ -273,7 +273,7 @@ def CompressFolder(month_dir,output_file):
                         add_count+=1
                         print(add_count,fix_file_path)
 
-CompressFolder("/home/zwk/BF_DATA/2020-3","/home/zwk/BF_DATA_Compressed/2020-3.tar.gz")
+#CompressFolder("/home/zwk/BF_DATA/2020-3","/home/zwk/BF_DATA_Compressed/2020-3.tar.gz")
 
 
 

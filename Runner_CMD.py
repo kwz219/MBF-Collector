@@ -18,14 +18,13 @@ def setupLogger(log_file_path):
     ch = logging.StreamHandler()
     logger.addHandler(fh)
     logger.addHandler(ch)
-
     return logger
+
 def process_json_file(json_file_path,logger,au_token,pushevent_save_dir,prevent_save_dir):
     all_events=utils.loadEventsJson(json_file_path)
     succeed_count=0
     error_count=0
     skipped_count=0
-
     for idx,event in enumerate(all_events):
         changed_files=[]
         event_type = event["type"]
@@ -65,6 +64,7 @@ def process_json_file(json_file_path,logger,au_token,pushevent_save_dir,prevent_
                             if "files" in commit_dict.keys():
                                 changed_files = commit_dict["files"]
                             else:
+                                print(changed_files)
                                 logger.info(
                                     "SKIP PushEvent " + id + " #Reason No file changed")
                                 skipped_count += 1
@@ -75,7 +75,6 @@ def process_json_file(json_file_path,logger,au_token,pushevent_save_dir,prevent_
                                 skipped_count += 1
                             else:
                                 bug_fix_entity = BFEntity(id,event_type)
-
                                 # record basic information
                                 try:
                                     status=recordPatch(bug_fix_entity,commit_dict,"PushEvent",au_token)
@@ -106,8 +105,6 @@ def process_json_file(json_file_path,logger,au_token,pushevent_save_dir,prevent_
                 else:
                     logger.info("SKIP PushEvent " + id + " #Reason No Payload Information")
                     skipped_count += 1
-
-                pass
 
         # record info of pull request event
         elif event_type == "PullRequestEvent":
@@ -159,13 +156,86 @@ def process_json_file(json_file_path,logger,au_token,pushevent_save_dir,prevent_
                             logger.info(
                                 "ERROR PullRequestEvent " + id + " when parsing basic information")
                             error_count += 1
-
-                    pass
                 else:
                     logger.info("SKIP PullRequestEvent " + id + " #Reason No Payload Information")
                     skipped_count += 1
         else:
             logger.info("SKIP Event " + id + " #Reason Type "+event_type)
+
+def process_json_file_PR(json_file_path,logger,au_token,pushevent_save_dir,prevent_save_dir):
+    all_events = utils.loadEventsJson(json_file_path)
+    succeed_count = 0
+    error_count = 0
+    skipped_count = 0
+    for idx, event in enumerate(all_events):
+        changed_files = []
+        event_type = event["type"]
+        id = event["id"]
+        bug_fix_entity = None
+        if idx % 100 == 0:
+            logger.info(
+                "Statistics: " + " Succeed: " + str(succeed_count) + " Skip: " + str(skipped_count) + " Error: " + str(
+                    error_count))
+        # record info of push event
+        if event_type == "PushEvent":
+            #do not consider PushEvent
+            continue
+
+        # record info of pull request event
+        elif event_type == "PullRequestEvent":
+            login_name = event["actor"]["login"]
+
+            # skip events acted by bots
+            if "[bot]" in login_name:
+                logger.info("SKIP PullRequestEvent " + id + " #Reason Actor Bot")
+                skipped_count += 1
+            else:
+                if "payload" in event.keys():
+
+                    if not "pull_request" in event["payload"].keys():
+                        # print(id, event["payload"].keys())
+                        logger.info("SKIP PullRequestEvent " + id + " #Reason No PullRequest Information")
+                        skipped_count += 1
+                        continue
+
+                    pullrequest_info = event["payload"]["pull_request"]
+                    # print(id, pullrequest_info.keys())
+                    commits_num = pullrequest_info["commits"]
+                    changed_files_num = pullrequest_info["changed_files"]
+                    if not commits_num == 1:
+                        logger.info("SKIP PullRequestEvent " + id + " #Reason More than one commit")
+                        skipped_count += 1
+                        continue
+                    elif not changed_files_num == 1:
+                        logger.info("SKIP PullRequestEvent " + id + " #Reason More than one file changed")
+                        skipped_count += 1
+                        continue
+                    else:
+                        try:
+                            pr_title = pullrequest_info["title"]
+                            if utils.hasBugFixKeywords(pr_title):
+                                logger.info("FIND PullRequestEvent " + id + " #Title " + pr_title)
+                            else:
+                                logger.info("SKIP PullRequestEvent " + id + " #Reason More than one file changed")
+                                skipped_count += 1
+                                continue
+                            bug_fix_entity = BFEntity(id, event_type)
+                            bug_fix_entity.merged = pullrequest_info["merged"]
+                            recordRepoInfo(bug_fix_entity, event, "PullRequestEvent", au_token)
+                            recordCommitInfoforPullRequestEvent(bug_fix_entity, pullrequest_info, au_token)
+                            recordIssueInfo(bug_fix_entity, event, au_token)
+                            bug_fix_entity.save_as_json(prevent_save_dir)
+                            # print("saved",id)
+                            succeed_count += 1
+                        except:
+                            logger.info(
+                                "ERROR PullRequestEvent " + id + " when parsing basic information")
+                            error_count += 1
+                else:
+                    logger.info("SKIP PullRequestEvent " + id + " #Reason No Payload Information")
+                    skipped_count += 1
+        else:
+            logger.info("SKIP Event " + id + " #Reason Type " + event_type)
 
 def main():
     parser = argparse.ArgumentParser(description='crawl_parse')

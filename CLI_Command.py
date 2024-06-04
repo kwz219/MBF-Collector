@@ -2,7 +2,7 @@ import argparse
 import os
 import time
 
-from Runner_CMD import setupLogger, process_json_file
+from Runner_CMD import setupLogger, process_json_file, process_json_file_PR
 from Util.Utils import download_by_month,unzip_and_delete_all
 from Util.traverse_folder import traverse_folder_month_infer,traverse_folder_month_parse
 
@@ -61,6 +61,32 @@ if __name__ == "__main__":
                     os.mkdir(pr_save_dir)
                 logger = setupLogger(log_path)
                 process_json_file(file_path.replace(".gz", ""), logger, au_token, push_save_dir, pr_save_dir)
+                if os.path.exists(file.replace(".gz", "")):
+                    os.system("rm " + file.replace(".gz", ""))
+
+    elif mode == "mine_basic_information_PR":
+        jsons_dir = args.download_save_dir
+        au_token = args.au_token
+        save_root_dir = args.month_dir
+
+        files = os.listdir(jsons_dir)
+        for file in files:
+            if file.endswith(".gz"):
+                file_path = os.path.join(jsons_dir, file)
+                os.system("gunzip " + file_path)
+                time.sleep(2)
+                log_path = os.path.join(save_root_dir, file.replace(".json.gz", ".crawl.log"))
+                if os.path.exists(log_path):
+                    continue
+                save_dir = os.path.join(save_root_dir, file.replace(".json.gz", ""))
+                os.mkdir(save_dir)
+                push_save_dir = os.path.join(save_dir, "PushEvent")
+                pr_save_dir = os.path.join(save_dir, "PREvent")
+
+                if not os.path.exists(pr_save_dir):
+                    os.mkdir(pr_save_dir)
+                logger = setupLogger(log_path)
+                process_json_file_PR(file_path.replace(".gz", ""), logger, au_token, push_save_dir, pr_save_dir)
                 if os.path.exists(file.replace(".gz", "")):
                     os.system("rm " + file.replace(".gz", ""))
 
